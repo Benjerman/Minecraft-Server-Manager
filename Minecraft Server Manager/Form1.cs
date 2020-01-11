@@ -15,8 +15,7 @@ namespace Minecraft_Server_Manager
 
 
         public delegate void fpTextBoxCallback_t(string strText);
-        public fpTextBoxCallback_t fpTextBoxCallback;
-
+        public fpTextBoxCallback_t fpTextBoxCallback;        
 
         public Form1()
         {
@@ -24,6 +23,13 @@ namespace Minecraft_Server_Manager
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             fpTextBoxCallback = new fpTextBoxCallback_t(AddTextToOutputTextBox);
             InitializeComponent();
+
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            timer.Tick += new EventHandler(timer_Tick); 
+            timer.Interval = (5000) * (1);              
+            timer.Enabled = true;                       
+            timer.Start();                              
+
 
             List<string> weatherList = new List<string>();
             weatherList.Add("clear");
@@ -68,14 +74,28 @@ namespace Minecraft_Server_Manager
 
         public void AddTextToOutputTextBox(string strText)
         {
+            string blah = strText.Replace("\r\n", "");
             try
             {
-                this.txtOutput.AppendText(strText);
+                if (strText.Contains("players online"))
+                {
+                   strText = strText.Replace("\r\n", "");
+                }
+                if (strText.Contains("players online") || (!blah.Contains(" ") && strText.Length > 0))
+                {
+                    this.playerTxtOutput.AppendText(strText);                    
+                }
+                else
+                {
+                    this.txtOutput.AppendText(strText);
+                }
             }
             catch (Exception ex)
             {
 
-            }
+            }           
+
+
         } 
 
 
@@ -107,7 +127,7 @@ namespace Minecraft_Server_Manager
                 else
                     fpTextBoxCallback(Environment.NewLine + outLine.Data);
             }
-
+            
         }
 
 
@@ -132,7 +152,7 @@ namespace Minecraft_Server_Manager
         private void backupButton_Click(object sender, EventArgs e)
         {
             mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
-            MessageBox.Show("Telling players the server is going down in 10 seconds, Please click ok to contiue with the backup");
+            MessageBox.Show("Telling players the server is going down in 10 seconds, Please click ok to continue with the backup");
             Thread.Sleep(10000);
             mcInputStream.WriteLine("stop");
             Thread.Sleep(5000);
@@ -233,6 +253,19 @@ namespace Minecraft_Server_Manager
 
             mcInputStream.WriteLine("gamerule " + gameRuleComboBox.SelectedItem + trueFalse);
         }
+        void timer_Tick(object sender, EventArgs e)
+        {            
+            try
+            {                   
+                playerTxtOutput.Clear();
+                mcInputStream.WriteLine("list");                
+            }
+            catch
+            {
+
+            }
+        }
+
     }
 
 

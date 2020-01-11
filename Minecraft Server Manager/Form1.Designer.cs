@@ -50,6 +50,8 @@
             this.gameRuleComboBox = new System.Windows.Forms.ComboBox();
             this.trueGRRadioButton = new System.Windows.Forms.RadioButton();
             this.falseGRRadioButton2 = new System.Windows.Forms.RadioButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.playerTxtOutput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtOutput
@@ -247,11 +249,30 @@
             this.falseGRRadioButton2.Text = "False";
             this.falseGRRadioButton2.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(643, 222);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 13);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Players Online:";
+            // 
+            // playerTxtOutput
+            // 
+            this.playerTxtOutput.Location = new System.Drawing.Point(646, 238);
+            this.playerTxtOutput.Multiline = true;
+            this.playerTxtOutput.Name = "playerTxtOutput";
+            this.playerTxtOutput.Size = new System.Drawing.Size(159, 378);
+            this.playerTxtOutput.TabIndex = 22;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(733, 628);
+            this.ClientSize = new System.Drawing.Size(817, 628);
+            this.Controls.Add(this.playerTxtOutput);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.falseGRRadioButton2);
             this.Controls.Add(this.trueGRRadioButton);
             this.Controls.Add(this.gameRuleComboBox);
@@ -304,6 +325,8 @@
         private System.Windows.Forms.ComboBox gameRuleComboBox;
         private System.Windows.Forms.RadioButton trueGRRadioButton;
         private System.Windows.Forms.RadioButton falseGRRadioButton2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox playerTxtOutput;
     }
 }
 
