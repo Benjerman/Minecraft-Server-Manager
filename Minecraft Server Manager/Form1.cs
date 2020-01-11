@@ -135,7 +135,7 @@ namespace Minecraft_Server_Manager
             MessageBox.Show("Telling players the server is going down in 10 seconds, Please click ok to contiue with the backup");
             Thread.Sleep(10000);
             mcInputStream.WriteLine("stop");
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             string source_dir = "";
             string destination_dir = "";
 
