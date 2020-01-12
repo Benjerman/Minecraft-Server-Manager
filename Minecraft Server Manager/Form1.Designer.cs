@@ -30,9 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtOutput = new System.Windows.Forms.RichTextBox();
-            this.txtInputCommand = new System.Windows.Forms.RichTextBox();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.btnQuit = new System.Windows.Forms.Button();
             this.backupButton = new System.Windows.Forms.Button();
             this.startServerButton = new System.Windows.Forms.Button();
             this.stopServerButton = new System.Windows.Forms.Button();
@@ -52,46 +50,33 @@
             this.falseGRRadioButton2 = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
             this.playerTxtOutput = new System.Windows.Forms.TextBox();
+            this.txtInputCommand = new System.Windows.Forms.TextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // txtOutput
             // 
+            this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtOutput.Location = new System.Drawing.Point(12, 238);
             this.txtOutput.Name = "txtOutput";
-            this.txtOutput.Size = new System.Drawing.Size(628, 378);
+            this.txtOutput.Size = new System.Drawing.Size(697, 378);
             this.txtOutput.TabIndex = 0;
             this.txtOutput.Text = "";
             // 
-            // txtInputCommand
-            // 
-            this.txtInputCommand.Location = new System.Drawing.Point(15, 196);
-            this.txtInputCommand.Name = "txtInputCommand";
-            this.txtInputCommand.Size = new System.Drawing.Size(625, 23);
-            this.txtInputCommand.TabIndex = 1;
-            this.txtInputCommand.Text = "";
-            // 
             // btnExecute
             // 
-            this.btnExecute.Location = new System.Drawing.Point(646, 194);
+            this.btnExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExecute.Location = new System.Drawing.Point(645, 196);
             this.btnExecute.Name = "btnExecute";
-            this.btnExecute.Size = new System.Drawing.Size(75, 23);
+            this.btnExecute.Size = new System.Drawing.Size(75, 20);
             this.btnExecute.TabIndex = 2;
             this.btnExecute.Text = "Execute";
             this.btnExecute.UseVisualStyleBackColor = true;
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
             // 
-            // btnQuit
-            // 
-            this.btnQuit.Location = new System.Drawing.Point(646, 12);
-            this.btnQuit.Name = "btnQuit";
-            this.btnQuit.Size = new System.Drawing.Size(75, 23);
-            this.btnQuit.TabIndex = 3;
-            this.btnQuit.Text = "Quit";
-            this.btnQuit.UseVisualStyleBackColor = true;
-            this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
-            // 
             // backupButton
             // 
+            this.backupButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.backupButton.Location = new System.Drawing.Point(12, 121);
             this.backupButton.Name = "backupButton";
             this.backupButton.Size = new System.Drawing.Size(103, 42);
@@ -102,6 +87,7 @@
             // 
             // startServerButton
             // 
+            this.startServerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.startServerButton.Location = new System.Drawing.Point(12, 25);
             this.startServerButton.Name = "startServerButton";
             this.startServerButton.Size = new System.Drawing.Size(103, 42);
@@ -112,6 +98,7 @@
             // 
             // stopServerButton
             // 
+            this.stopServerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.stopServerButton.Location = new System.Drawing.Point(12, 73);
             this.stopServerButton.Name = "stopServerButton";
             this.stopServerButton.Size = new System.Drawing.Size(103, 42);
@@ -122,6 +109,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
@@ -131,6 +119,8 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 222);
             this.label2.Name = "label2";
@@ -140,6 +130,8 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 180);
             this.label3.Name = "label3";
@@ -164,6 +156,7 @@
             this.weatherComboBox.Size = new System.Drawing.Size(121, 21);
             this.weatherComboBox.TabIndex = 11;
             this.weatherComboBox.SelectedIndexChanged += new System.EventHandler(this.weatherComboBox_SelectedIndexChanged);
+            this.weatherComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.weatherComboBox_KeyDown);
             // 
             // setWeatherButton
             // 
@@ -191,6 +184,7 @@
             this.opPlayerTextBox1.Name = "opPlayerTextBox1";
             this.opPlayerTextBox1.Size = new System.Drawing.Size(121, 20);
             this.opPlayerTextBox1.TabIndex = 14;
+            this.opPlayerTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.opPlayerTextBox1_KeyDown);
             // 
             // deOpPlayerButton
             // 
@@ -208,6 +202,7 @@
             this.deOpTextBox1.Name = "deOpTextBox1";
             this.deOpTextBox1.Size = new System.Drawing.Size(121, 20);
             this.deOpTextBox1.TabIndex = 16;
+            this.deOpTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.deOpTextBox1_KeyDown);
             // 
             // button1
             // 
@@ -226,6 +221,7 @@
             this.gameRuleComboBox.Name = "gameRuleComboBox";
             this.gameRuleComboBox.Size = new System.Drawing.Size(121, 21);
             this.gameRuleComboBox.TabIndex = 18;
+            this.gameRuleComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gameRuleComboBox_KeyDown);
             // 
             // trueGRRadioButton
             // 
@@ -237,6 +233,7 @@
             this.trueGRRadioButton.TabStop = true;
             this.trueGRRadioButton.Text = "True";
             this.trueGRRadioButton.UseVisualStyleBackColor = true;
+            this.trueGRRadioButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.trueGRRadioButton_KeyDown);
             // 
             // falseGRRadioButton2
             // 
@@ -248,9 +245,12 @@
             this.falseGRRadioButton2.TabStop = true;
             this.falseGRRadioButton2.Text = "False";
             this.falseGRRadioButton2.UseVisualStyleBackColor = true;
+            this.falseGRRadioButton2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.falseGRRadioButton2_KeyDown);
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(643, 222);
             this.label5.Name = "label5";
@@ -260,17 +260,33 @@
             // 
             // playerTxtOutput
             // 
-            this.playerTxtOutput.Location = new System.Drawing.Point(646, 238);
+            this.playerTxtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.playerTxtOutput.Location = new System.Drawing.Point(715, 238);
             this.playerTxtOutput.Multiline = true;
             this.playerTxtOutput.Name = "playerTxtOutput";
-            this.playerTxtOutput.Size = new System.Drawing.Size(159, 378);
+            this.playerTxtOutput.Size = new System.Drawing.Size(177, 378);
             this.playerTxtOutput.TabIndex = 22;
+            // 
+            // txtInputCommand
+            // 
+            this.txtInputCommand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtInputCommand.Location = new System.Drawing.Point(12, 196);
+            this.txtInputCommand.Name = "txtInputCommand";
+            this.txtInputCommand.Size = new System.Drawing.Size(628, 20);
+            this.txtInputCommand.TabIndex = 23;
+            this.txtInputCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInputCommand_KeyDown);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(817, 628);
+            this.ClientSize = new System.Drawing.Size(904, 628);
+            this.Controls.Add(this.txtInputCommand);
             this.Controls.Add(this.playerTxtOutput);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.falseGRRadioButton2);
@@ -290,11 +306,12 @@
             this.Controls.Add(this.stopServerButton);
             this.Controls.Add(this.startServerButton);
             this.Controls.Add(this.backupButton);
-            this.Controls.Add(this.btnQuit);
             this.Controls.Add(this.btnExecute);
-            this.Controls.Add(this.txtInputCommand);
             this.Controls.Add(this.txtOutput);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Minecraft Bedrock Server Manager";
             this.ResumeLayout(false);
@@ -305,9 +322,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox txtOutput;
-        private System.Windows.Forms.RichTextBox txtInputCommand;
         private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.Button btnQuit;
         private System.Windows.Forms.Button backupButton;
         private System.Windows.Forms.Button startServerButton;
         private System.Windows.Forms.Button stopServerButton;
@@ -327,6 +342,8 @@
         private System.Windows.Forms.RadioButton falseGRRadioButton2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox playerTxtOutput;
+        private System.Windows.Forms.TextBox txtInputCommand;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

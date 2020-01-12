@@ -19,7 +19,7 @@ namespace Minecraft_Server_Manager
 
         public Form1()
         {
-            
+            CheckForIllegalCrossThreadCalls = false;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             fpTextBoxCallback = new fpTextBoxCallback_t(AddTextToOutputTextBox);
             InitializeComponent();
@@ -88,7 +88,9 @@ namespace Minecraft_Server_Manager
                 else
                 {
                     this.txtOutput.AppendText(strText);
+                    txtOutput.ScrollToCaret();
                 }
+                
             }
             catch (Exception ex)
             {
@@ -99,23 +101,23 @@ namespace Minecraft_Server_Manager
         } 
 
 
-        private void btnQuit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                mcInputStream.WriteLine("stop");
-                Thread.Sleep(1000);
-                mcInputStream.Close();
-                minecraftProcess.Close();
-                minecraftProcess.Dispose();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            Application.Exit();
+        //private void btnQuit_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        mcInputStream.WriteLine("stop");
+        //        Thread.Sleep(1000);
+        //        mcInputStream.Close();
+        //        minecraftProcess.Close();
+        //        minecraftProcess.Dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //    Application.Exit();
 
-        } 
+        //} 
 
 
         private void ConsoleOutputHandler(object sendingProcess, System.Diagnostics.DataReceivedEventArgs outLine)
@@ -133,51 +135,34 @@ namespace Minecraft_Server_Manager
 
         private void btnExecute_Click(object sender, EventArgs e)
         {
-            if (this.minecraftProcess.HasExited)
+            try
             {
-                MessageBox.Show("The server has been shutdown.", "Info");
-                return;
+                if (this.minecraftProcess.HasExited)
+                {
+                    txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
+                    return;
+                }
+
+
+                mcInputStream.WriteLine(txtInputCommand.Text);
             }
 
-            mcInputStream.WriteLine(txtInputCommand.Text);
+            catch
+            {
+
+            }
         }
 
 
         public void ProcessExited(object sender, EventArgs e)
         {
-            MessageBox.Show("The server has been shutdown.", "Info");
+            txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
         }
 
 
         private void backupButton_Click(object sender, EventArgs e)
         {
-            mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
-            MessageBox.Show("Telling players the server is going down in 10 seconds, Please click ok to continue with the backup");
-            Thread.Sleep(10000);
-            mcInputStream.WriteLine("stop");
-            Thread.Sleep(5000);
-            string source_dir = "";
-            string destination_dir = "";
-
-            source_dir = @"worlds";
-            destination_dir = @"backups\worlds" + DateTime.Now.ToString("hhmmttMMddyyyy");
-
-
-
-            foreach (string dir in System.IO.Directory.GetDirectories(source_dir, "*", System.IO.SearchOption.AllDirectories))
-            {
-                System.IO.Directory.CreateDirectory(System.IO.Path.Combine(destination_dir, dir.Substring(source_dir.Length + 1)));
-
-            }
-
-            foreach (string file_name in System.IO.Directory.GetFiles(source_dir, "*", System.IO.SearchOption.AllDirectories))
-            {
-                System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)));
-            }
-
-            MessageBox.Show("Backup Complete. Please start the server again");
-
-
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void startServerButton_Click(object sender, EventArgs e)
@@ -214,7 +199,14 @@ namespace Minecraft_Server_Manager
 
         private void stopServerButton_Click(object sender, EventArgs e)
         {
-            mcInputStream.WriteLine("stop");
+            try
+            {
+                mcInputStream.WriteLine("stop");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void OnProcessExit(object sender, EventArgs e)
@@ -229,18 +221,39 @@ namespace Minecraft_Server_Manager
         }
 
         private void setWeatherButton_Click(object sender, EventArgs e)
-        {            
-            mcInputStream.WriteLine("weather " + weatherComboBox.SelectedItem);
+        {
+            try
+            {
+                mcInputStream.WriteLine("weather " + weatherComboBox.SelectedItem);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void opPlayerButton_Click(object sender, EventArgs e)
         {
-            mcInputStream.WriteLine("op " + opPlayerTextBox1.Text.ToString());
+            try
+            {
+                mcInputStream.WriteLine("op " + opPlayerTextBox1.Text.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void deOpPlayerButton_Click(object sender, EventArgs e)
         {
-            mcInputStream.WriteLine("deop " + deOpTextBox1.Text.ToString());
+            try
+            {
+                mcInputStream.WriteLine("deop " + deOpTextBox1.Text.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -250,8 +263,14 @@ namespace Minecraft_Server_Manager
                 trueFalse = " true";
             if (falseGRRadioButton2.Checked)
                 trueFalse = " false";
+            try
+            {
+                mcInputStream.WriteLine("gamerule " + gameRuleComboBox.SelectedItem + trueFalse);
+            }
+            catch
+            {
 
-            mcInputStream.WriteLine("gamerule " + gameRuleComboBox.SelectedItem + trueFalse);
+            }
         }
         void timer_Tick(object sender, EventArgs e)
         {            
@@ -266,6 +285,84 @@ namespace Minecraft_Server_Manager
             }
         }
 
+        private void txtInputCommand_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+                if (e.KeyCode == Keys.Enter)
+                btnExecute_Click(sender, e);
+           
+        }
+
+        private void weatherComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                setWeatherButton_Click(sender, e);
+        }
+
+        private void opPlayerTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                opPlayerButton_Click(sender, e);
+        }
+
+        private void deOpTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                deOpPlayerButton_Click(sender, e);
+        }
+
+        private void gameRuleComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                button1_Click(sender, e);
+        }
+
+        private void trueGRRadioButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                button1_Click(sender, e);
+        }
+
+        private void falseGRRadioButton2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                button1_Click(sender, e);
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
+            txtOutput.AppendText("\r\n\r\nTelling players the server is going down in 10 seconds\r\n");            
+            
+            //Thread.Sleep(10000);
+            txtOutput.AppendText("\r\nStopping Server\r\n");
+            mcInputStream.WriteLine("stop");
+            Thread.Sleep(5000);
+            string source_dir = "";
+            string destination_dir = "";
+
+            source_dir = @"worlds";
+            destination_dir = @"backups\worlds" + DateTime.Now.ToString("hhmmttMMddyyyy");
+
+
+            txtOutput.AppendText("\r\nStarting Backup\r\n\r\n");
+            foreach (string dir in System.IO.Directory.GetDirectories(source_dir, "*", System.IO.SearchOption.AllDirectories))
+            {
+                System.IO.Directory.CreateDirectory(System.IO.Path.Combine(destination_dir, dir.Substring(source_dir.Length + 1)));               
+            }
+
+            foreach (string file_name in System.IO.Directory.GetFiles(source_dir, "*", System.IO.SearchOption.AllDirectories))
+            {
+                System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)));
+                txtOutput.AppendText("Backing up: " + file_name + "    TO:    " + destination_dir + file_name + "\r\n\r\n");
+                txtOutput.ScrollToCaret();
+            }
+            Thread.Sleep(5000);
+            txtOutput.AppendText("\r\nBackup Complete. Starting server\r\n\r\n");
+
+            startServerButton_Click(sender, e);
+            
+        }
     }
 
 
