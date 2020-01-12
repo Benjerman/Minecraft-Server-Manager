@@ -81,9 +81,14 @@ namespace Minecraft_Server_Manager
                 {
                    strText = strText.Replace("\r\n", "");
                 }
-                if (strText.Contains("players online") || (!blah.Contains(" ") && strText.Length > 0))
+                if (blah.Contains(", xuid") || blah.Contains(", port"))
                 {
-                    this.playerTxtOutput.AppendText(strText);                    
+                    this.txtOutput.AppendText(strText);
+                    txtOutput.ScrollToCaret();
+                }
+                else if (strText.Contains("players online") || (!blah.Contains(" ") && strText.Length > 0) || blah.Contains(", ") )
+                {
+                    this.playerTxtOutput.AppendText(strText);
                 }
                 else
                 {
