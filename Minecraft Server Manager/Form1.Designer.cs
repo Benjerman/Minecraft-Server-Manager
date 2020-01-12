@@ -66,7 +66,7 @@
             // btnExecute
             // 
             this.btnExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExecute.Location = new System.Drawing.Point(645, 196);
+            this.btnExecute.Location = new System.Drawing.Point(714, 195);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 20);
             this.btnExecute.TabIndex = 2;
@@ -273,7 +273,7 @@
             this.txtInputCommand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtInputCommand.Location = new System.Drawing.Point(12, 196);
             this.txtInputCommand.Name = "txtInputCommand";
-            this.txtInputCommand.Size = new System.Drawing.Size(628, 20);
+            this.txtInputCommand.Size = new System.Drawing.Size(697, 20);
             this.txtInputCommand.TabIndex = 23;
             this.txtInputCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInputCommand_KeyDown);
             // 

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Minecraft_Server_Manager
 {
@@ -13,6 +14,8 @@ namespace Minecraft_Server_Manager
         Process minecraftProcess;
         StreamWriter mcInputStream;
 
+        string players = "Loading Player List.....";
+        string players2 = "";
 
         public delegate void fpTextBoxCallback_t(string strText);
         public fpTextBoxCallback_t fpTextBoxCallback;        
@@ -74,6 +77,7 @@ namespace Minecraft_Server_Manager
 
         public void AddTextToOutputTextBox(string strText)
         {
+            
             string blah = strText.Replace("\r\n", "");
             try
             {
@@ -86,9 +90,20 @@ namespace Minecraft_Server_Manager
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
                 }
+                else if (strText.Contains("players online"))
+                {                    
+                    players = players + strText + "\r\n";
+                }               
+
                 else if (strText.Contains("players online") || (!blah.Contains(" ") && strText.Length > 0) || blah.Contains(", ") )
                 {
-                    this.playerTxtOutput.AppendText(strText);
+                    string removeCR = strText.Replace("\r\n","");
+                    removeCR = removeCR.Replace(" ", "");
+                    string[] names = removeCR.Split(',');                 
+                    Array.Sort(names);
+                    string result = string.Join("\r\n", names);                 
+                    players = players + result;
+                    
                 }
                 else
                 {
@@ -104,26 +119,6 @@ namespace Minecraft_Server_Manager
 
 
         } 
-
-
-        //private void btnQuit_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        mcInputStream.WriteLine("stop");
-        //        Thread.Sleep(1000);
-        //        mcInputStream.Close();
-        //        minecraftProcess.Close();
-        //        minecraftProcess.Dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.ToString());
-        //    }
-        //    Application.Exit();
-
-        //} 
-
 
         private void ConsoleOutputHandler(object sendingProcess, System.Diagnostics.DataReceivedEventArgs outLine)
         {
@@ -280,9 +275,16 @@ namespace Minecraft_Server_Manager
         void timer_Tick(object sender, EventArgs e)
         {            
             try
-            {                   
-                playerTxtOutput.Clear();
+            {
+                
+                if(players != players2)
+                {
+                    playerTxtOutput.Clear();
+                    playerTxtOutput.Text = players;
+                }
+                //playerTxtOutput.Clear();
                 mcInputStream.WriteLine("list");                
+                players = players2;                
             }
             catch
             {
