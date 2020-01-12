@@ -334,7 +334,7 @@ namespace Minecraft_Server_Manager
             mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
             txtOutput.AppendText("\r\n\r\nTelling players the server is going down in 10 seconds\r\n");            
             
-            //Thread.Sleep(10000);
+            Thread.Sleep(10000);
             txtOutput.AppendText("\r\nStopping Server\r\n");
             mcInputStream.WriteLine("stop");
             Thread.Sleep(5000);
