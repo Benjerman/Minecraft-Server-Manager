@@ -52,6 +52,7 @@
             this.playerTxtOutput = new System.Windows.Forms.TextBox();
             this.txtInputCommand = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.startServerCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtOutput
@@ -281,11 +282,23 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
+            // startServerCheckbox
+            // 
+            this.startServerCheckbox.AutoSize = true;
+            this.startServerCheckbox.Location = new System.Drawing.Point(748, 8);
+            this.startServerCheckbox.Name = "startServerCheckbox";
+            this.startServerCheckbox.Size = new System.Drawing.Size(144, 17);
+            this.startServerCheckbox.TabIndex = 24;
+            this.startServerCheckbox.Text = "Start server automatically";
+            this.startServerCheckbox.UseVisualStyleBackColor = true;
+            this.startServerCheckbox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(904, 628);
+            this.Controls.Add(this.startServerCheckbox);
             this.Controls.Add(this.txtInputCommand);
             this.Controls.Add(this.playerTxtOutput);
             this.Controls.Add(this.label5);
@@ -344,6 +357,7 @@
         private System.Windows.Forms.TextBox playerTxtOutput;
         private System.Windows.Forms.TextBox txtInputCommand;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.CheckBox startServerCheckbox;
     }
 }
 

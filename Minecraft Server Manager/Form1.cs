@@ -4,7 +4,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
 
 namespace Minecraft_Server_Manager
 {
@@ -17,11 +17,16 @@ namespace Minecraft_Server_Manager
         string players = "Loading Player List.....";
         string players2 = "";
 
+        
+        
+
         public delegate void fpTextBoxCallback_t(string strText);
         public fpTextBoxCallback_t fpTextBoxCallback;        
 
         public Form1()
         {
+            string startServer = ConfigurationManager.AppSettings["startServer"].ToString();
+
             CheckForIllegalCrossThreadCalls = false;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             fpTextBoxCallback = new fpTextBoxCallback_t(AddTextToOutputTextBox);
@@ -66,10 +71,19 @@ namespace Minecraft_Server_Manager
             gameRuleList.Add("showdeathmessages");
             gameRuleList.Add("tntexplodes");
 
+            if (startServer == "true")
+            {
+                startServerCheckbox.Checked = true;
+            }
 
             weatherComboBox.DataSource = weatherList;
 
             gameRuleComboBox.DataSource = gameRuleList;
+
+            if(startServer == "true")
+            {
+                startServerButton_Click(null, EventArgs.Empty);
+            }
 
             
         } // End Constructor
@@ -210,7 +224,7 @@ namespace Minecraft_Server_Manager
         }
 
         private void OnProcessExit(object sender, EventArgs e)
-        {
+        {           
             mcInputStream.WriteLine("stop");
             Thread.Sleep(5000);
         }
@@ -370,6 +384,23 @@ namespace Minecraft_Server_Manager
             startServerButton_Click(sender, e);
             
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);            
+            configuration.Save(ConfigurationSaveMode.Modified);
+            if (startServerCheckbox.Checked)
+            {
+                configuration.AppSettings.Settings["startServer"].Value = "true";
+                configuration.Save(ConfigurationSaveMode.Modified);
+            }
+            if (!startServerCheckbox.Checked)
+            {                
+                configuration.AppSettings.Settings["startServer"].Value = "false";
+                configuration.Save(ConfigurationSaveMode.Modified);
+            }
+
+            }
     }
 
 
