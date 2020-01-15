@@ -53,21 +53,23 @@
             this.txtInputCommand = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.startServerCheckbox = new System.Windows.Forms.CheckBox();
+            this.gameRulesTxt = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtOutput
             // 
             this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtOutput.Location = new System.Drawing.Point(12, 238);
+            this.txtOutput.Location = new System.Drawing.Point(9, 238);
             this.txtOutput.Name = "txtOutput";
-            this.txtOutput.Size = new System.Drawing.Size(697, 378);
+            this.txtOutput.Size = new System.Drawing.Size(528, 378);
             this.txtOutput.TabIndex = 0;
             this.txtOutput.Text = "";
             // 
             // btnExecute
             // 
             this.btnExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExecute.Location = new System.Drawing.Point(714, 195);
+            this.btnExecute.Location = new System.Drawing.Point(543, 199);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 20);
             this.btnExecute.TabIndex = 2;
@@ -123,7 +125,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 222);
+            this.label2.Location = new System.Drawing.Point(6, 222);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 8;
@@ -134,7 +136,7 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 180);
+            this.label3.Location = new System.Drawing.Point(6, 183);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 9;
@@ -253,7 +255,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(712, 222);
+            this.label5.Location = new System.Drawing.Point(751, 222);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 13);
             this.label5.TabIndex = 21;
@@ -261,20 +263,19 @@
             // 
             // playerTxtOutput
             // 
-            this.playerTxtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.playerTxtOutput.Location = new System.Drawing.Point(715, 238);
+            this.playerTxtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.playerTxtOutput.Location = new System.Drawing.Point(754, 238);
             this.playerTxtOutput.Multiline = true;
             this.playerTxtOutput.Name = "playerTxtOutput";
-            this.playerTxtOutput.Size = new System.Drawing.Size(177, 378);
+            this.playerTxtOutput.Size = new System.Drawing.Size(162, 378);
             this.playerTxtOutput.TabIndex = 22;
             // 
             // txtInputCommand
             // 
             this.txtInputCommand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtInputCommand.Location = new System.Drawing.Point(12, 196);
+            this.txtInputCommand.Location = new System.Drawing.Point(9, 199);
             this.txtInputCommand.Name = "txtInputCommand";
-            this.txtInputCommand.Size = new System.Drawing.Size(697, 20);
+            this.txtInputCommand.Size = new System.Drawing.Size(528, 20);
             this.txtInputCommand.TabIndex = 23;
             this.txtInputCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInputCommand_KeyDown);
             // 
@@ -293,11 +294,30 @@
             this.startServerCheckbox.UseVisualStyleBackColor = true;
             this.startServerCheckbox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // gameRulesTxt
+            // 
+            this.gameRulesTxt.Location = new System.Drawing.Point(543, 238);
+            this.gameRulesTxt.Multiline = true;
+            this.gameRulesTxt.Name = "gameRulesTxt";
+            this.gameRulesTxt.Size = new System.Drawing.Size(205, 378);
+            this.gameRulesTxt.TabIndex = 25;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(540, 222);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(102, 13);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Current Game Rules";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(904, 628);
+            this.ClientSize = new System.Drawing.Size(922, 628);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.gameRulesTxt);
             this.Controls.Add(this.startServerCheckbox);
             this.Controls.Add(this.txtInputCommand);
             this.Controls.Add(this.playerTxtOutput);
@@ -358,6 +378,8 @@
         private System.Windows.Forms.TextBox txtInputCommand;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.CheckBox startServerCheckbox;
+        private System.Windows.Forms.TextBox gameRulesTxt;
+        private System.Windows.Forms.Label label6;
     }
 }
 

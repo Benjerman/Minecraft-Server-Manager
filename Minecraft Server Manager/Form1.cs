@@ -95,6 +95,18 @@ namespace Minecraft_Server_Manager
             string blah = strText.Replace("\r\n", "");
             try
             {
+                if (blah.Contains("Network port occupied, can't start server."))
+                {
+                    this.txtOutput.AppendText(strText);
+                    txtOutput.ScrollToCaret();
+                    return;
+                }
+                if (blah.Contains("commandblock") && blah.Contains("="))
+                {
+                    string removeComma = blah.Replace(", ", "\r\n");
+                    gameRulesTxt.Text = removeComma;
+                    return;
+                }
                 if (strText.Contains("players online"))
                 {
                    strText = strText.Replace("\r\n", "");
@@ -209,6 +221,8 @@ namespace Minecraft_Server_Manager
             mcInputStream = minecraftProcess.StandardInput;
             minecraftProcess.BeginOutputReadLine();
             minecraftProcess.BeginErrorReadLine();
+
+            mcInputStream.WriteLine("gamerule");
         }
 
         private void stopServerButton_Click(object sender, EventArgs e)
@@ -216,6 +230,8 @@ namespace Minecraft_Server_Manager
             try
             {
                 mcInputStream.WriteLine("stop");
+                playerTxtOutput.Clear();
+                gameRulesTxt.Clear();
             }
             catch(Exception ex)
             {
@@ -280,6 +296,7 @@ namespace Minecraft_Server_Manager
             try
             {
                 mcInputStream.WriteLine("gamerule " + gameRuleComboBox.SelectedItem + trueFalse);
+                mcInputStream.WriteLine("gamerule ");
             }
             catch
             {
