@@ -55,6 +55,9 @@
             this.startServerCheckbox = new System.Windows.Forms.CheckBox();
             this.gameRulesTxt = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.automaticBackupsCheckBox = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtOutput
@@ -311,11 +314,45 @@
             this.label6.TabIndex = 26;
             this.label6.Text = "Current Game Rules";
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker1.Location = new System.Drawing.Point(748, 73);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.ShowUpDown = true;
+            this.dateTimePicker1.Size = new System.Drawing.Size(168, 20);
+            this.dateTimePicker1.TabIndex = 27;
+            this.dateTimePicker1.Value = new System.DateTime(2020, 1, 18, 12, 1, 0, 0);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // automaticBackupsCheckBox
+            // 
+            this.automaticBackupsCheckBox.AutoSize = true;
+            this.automaticBackupsCheckBox.Location = new System.Drawing.Point(748, 31);
+            this.automaticBackupsCheckBox.Name = "automaticBackupsCheckBox";
+            this.automaticBackupsCheckBox.Size = new System.Drawing.Size(117, 17);
+            this.automaticBackupsCheckBox.TabIndex = 28;
+            this.automaticBackupsCheckBox.Text = "Automatic backups";
+            this.automaticBackupsCheckBox.UseVisualStyleBackColor = true;
+            this.automaticBackupsCheckBox.CheckedChanged += new System.EventHandler(this.automaticBackupsCheckBox_CheckedChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(745, 56);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(66, 13);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "Backup time";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 628);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.automaticBackupsCheckBox);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.gameRulesTxt);
             this.Controls.Add(this.startServerCheckbox);
@@ -380,6 +417,9 @@
         private System.Windows.Forms.CheckBox startServerCheckbox;
         private System.Windows.Forms.TextBox gameRulesTxt;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.CheckBox automaticBackupsCheckBox;
+        private System.Windows.Forms.Label label7;
     }
 }
 
