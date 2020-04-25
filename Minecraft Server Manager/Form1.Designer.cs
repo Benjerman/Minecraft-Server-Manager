@@ -82,7 +82,6 @@
             // 
             // backupButton
             // 
-            this.backupButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.backupButton.Location = new System.Drawing.Point(12, 121);
             this.backupButton.Name = "backupButton";
             this.backupButton.Size = new System.Drawing.Size(103, 42);
@@ -93,7 +92,6 @@
             // 
             // startServerButton
             // 
-            this.startServerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.startServerButton.Location = new System.Drawing.Point(12, 25);
             this.startServerButton.Name = "startServerButton";
             this.startServerButton.Size = new System.Drawing.Size(103, 42);
@@ -104,7 +102,6 @@
             // 
             // stopServerButton
             // 
-            this.stopServerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.stopServerButton.Location = new System.Drawing.Point(12, 73);
             this.stopServerButton.Name = "stopServerButton";
             this.stopServerButton.Size = new System.Drawing.Size(103, 42);
@@ -115,7 +112,6 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
@@ -378,10 +374,7 @@
             this.Controls.Add(this.backupButton);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.txtOutput);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Minecraft Bedrock Server Manager";
             this.ResumeLayout(false);
