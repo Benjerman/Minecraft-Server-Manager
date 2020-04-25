@@ -62,7 +62,6 @@
             // 
             // txtOutput
             // 
-            this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtOutput.Location = new System.Drawing.Point(9, 238);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(528, 378);
@@ -71,7 +70,6 @@
             // 
             // btnExecute
             // 
-            this.btnExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExecute.Location = new System.Drawing.Point(543, 199);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 20);
@@ -121,8 +119,6 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 222);
             this.label2.Name = "label2";
@@ -132,8 +128,6 @@
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 183);
             this.label3.Name = "label3";
@@ -251,8 +245,6 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(751, 222);
             this.label5.Name = "label5";
@@ -262,7 +254,6 @@
             // 
             // playerTxtOutput
             // 
-            this.playerTxtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.playerTxtOutput.Location = new System.Drawing.Point(754, 238);
             this.playerTxtOutput.Multiline = true;
             this.playerTxtOutput.Name = "playerTxtOutput";
@@ -271,7 +262,6 @@
             // 
             // txtInputCommand
             // 
-            this.txtInputCommand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtInputCommand.Location = new System.Drawing.Point(9, 199);
             this.txtInputCommand.Name = "txtInputCommand";
             this.txtInputCommand.Size = new System.Drawing.Size(528, 20);
@@ -284,6 +274,7 @@
             // 
             // startServerCheckbox
             // 
+            this.startServerCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.startServerCheckbox.AutoSize = true;
             this.startServerCheckbox.Location = new System.Drawing.Point(748, 8);
             this.startServerCheckbox.Name = "startServerCheckbox";
@@ -312,6 +303,7 @@
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker1.Location = new System.Drawing.Point(748, 73);
             this.dateTimePicker1.Name = "dateTimePicker1";
@@ -323,6 +315,7 @@
             // 
             // automaticBackupsCheckBox
             // 
+            this.automaticBackupsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.automaticBackupsCheckBox.AutoSize = true;
             this.automaticBackupsCheckBox.Location = new System.Drawing.Point(748, 31);
             this.automaticBackupsCheckBox.Name = "automaticBackupsCheckBox";
@@ -334,6 +327,7 @@
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(745, 56);
             this.label7.Name = "label7";
