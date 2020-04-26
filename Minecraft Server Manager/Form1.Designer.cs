@@ -100,6 +100,7 @@
             // 
             // stopServerButton
             // 
+            this.stopServerButton.Enabled = false;
             this.stopServerButton.Location = new System.Drawing.Point(12, 73);
             this.stopServerButton.Name = "stopServerButton";
             this.stopServerButton.Size = new System.Drawing.Size(103, 42);

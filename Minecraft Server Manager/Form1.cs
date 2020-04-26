@@ -247,32 +247,40 @@ namespace Minecraft_Server_Manager
 
 
             processFileName = @"bedrock_server.exe";
+            if (!File.Exists(processFileName))
+            {
+                AddTextToOutputTextBox("bedrock_server.exe not found\r\n");
+            }
+            else
+            {
+                minecraftProcess = new System.Diagnostics.Process();
 
+                minecraftProcess.StartInfo.FileName = processFileName;
 
-            minecraftProcess = new System.Diagnostics.Process();
+                AddTextToOutputTextBox("Using this terminal: " + minecraftProcess.StartInfo.FileName);
 
-            minecraftProcess.StartInfo.FileName = processFileName;
+                minecraftProcess.StartInfo.UseShellExecute = false;
+                minecraftProcess.StartInfo.CreateNoWindow = true;
+                minecraftProcess.StartInfo.RedirectStandardInput = true;
+                minecraftProcess.StartInfo.RedirectStandardOutput = true;
+                minecraftProcess.StartInfo.RedirectStandardError = true;
 
-            AddTextToOutputTextBox("Using this terminal: " + minecraftProcess.StartInfo.FileName);
+                minecraftProcess.EnableRaisingEvents = true;
+                minecraftProcess.Exited += new EventHandler(ProcessExited);
+                minecraftProcess.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(ConsoleOutputHandler);
+                minecraftProcess.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(ConsoleOutputHandler);
 
-            minecraftProcess.StartInfo.UseShellExecute = false;
-            minecraftProcess.StartInfo.CreateNoWindow = true;
-            minecraftProcess.StartInfo.RedirectStandardInput = true;
-            minecraftProcess.StartInfo.RedirectStandardOutput = true;
-            minecraftProcess.StartInfo.RedirectStandardError = true;
+                minecraftProcess.Start();
 
-            minecraftProcess.EnableRaisingEvents = true;
-            minecraftProcess.Exited += new EventHandler(ProcessExited);
-            minecraftProcess.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(ConsoleOutputHandler);
-            minecraftProcess.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(ConsoleOutputHandler);
+                mcInputStream = minecraftProcess.StandardInput;
+                minecraftProcess.BeginOutputReadLine();
+                minecraftProcess.BeginErrorReadLine();
 
-            minecraftProcess.Start();
+                mcInputStream.WriteLine("gamerule");
 
-            mcInputStream = minecraftProcess.StandardInput;
-            minecraftProcess.BeginOutputReadLine();
-            minecraftProcess.BeginErrorReadLine();
-
-            mcInputStream.WriteLine("gamerule");
+                startServerButton.Enabled = false;
+                stopServerButton.Enabled = true;
+            }
         }
 
         private void stopServerButton_Click(object sender, EventArgs e)
@@ -282,6 +290,8 @@ namespace Minecraft_Server_Manager
                 mcInputStream.WriteLine("stop");
                 playerTxtOutput.Clear();
                 gameRulesTxt.Clear();
+                startServerButton.Enabled = true;
+                stopServerButton.Enabled = false;
             }
             catch(Exception ex)
             {
