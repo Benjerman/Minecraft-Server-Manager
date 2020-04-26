@@ -187,7 +187,7 @@ namespace Minecraft_Server_Manager
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }           
 
 
