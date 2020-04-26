@@ -8,7 +8,7 @@ Extract the two files (the server manager exe itself, and its config file) into 
 
 Run it and click "Start Server" to start up your Minecraft server. Do not start the Minecraft Bedrock Server console exe first (unless you want more than one instance for some reason). Server Manager starts the server, keeps it hidden and allows you to manage it via the UI.
 
-![Minecraft Server Manager](https://imgur.com/7TmerAM.png)
+![Minecraft Server Manager](https://imgur.com/UFKPEZU.png)
 
 
 https://www.minecraft.net/en-us/download/server/bedrock/
