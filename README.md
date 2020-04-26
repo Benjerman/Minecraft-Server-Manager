@@ -11,4 +11,5 @@ Run it and click "Start Server" to start up your Minecraft server. Do not start 
 ![Minecraft Server Manager](https://imgur.com/r58sgXe.png)
 
 
+The official Bedrock Server is available here:
 https://www.minecraft.net/en-us/download/server/bedrock/
