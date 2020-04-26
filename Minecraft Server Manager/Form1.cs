@@ -16,7 +16,7 @@ namespace Minecraft_Server_Manager
         Process minecraftProcess;
         StreamWriter mcInputStream;
 
-        string players = "Loading Player List.....";
+        string players = "Loading Player List...";
         string players2 = "";
 
 

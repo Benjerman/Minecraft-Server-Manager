@@ -150,7 +150,7 @@
             this.weatherComboBox.FormattingEnabled = true;
             this.weatherComboBox.Location = new System.Drawing.Point(262, 26);
             this.weatherComboBox.Name = "weatherComboBox";
-            this.weatherComboBox.Size = new System.Drawing.Size(121, 21);
+            this.weatherComboBox.Size = new System.Drawing.Size(136, 21);
             this.weatherComboBox.TabIndex = 11;
             this.weatherComboBox.SelectedIndexChanged += new System.EventHandler(this.weatherComboBox_SelectedIndexChanged);
             this.weatherComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.weatherComboBox_KeyDown);
@@ -179,7 +179,7 @@
             // 
             this.opPlayerTextBox1.Location = new System.Drawing.Point(262, 53);
             this.opPlayerTextBox1.Name = "opPlayerTextBox1";
-            this.opPlayerTextBox1.Size = new System.Drawing.Size(121, 20);
+            this.opPlayerTextBox1.Size = new System.Drawing.Size(136, 20);
             this.opPlayerTextBox1.TabIndex = 14;
             this.opPlayerTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.opPlayerTextBox1_KeyDown);
             // 
@@ -197,7 +197,7 @@
             // 
             this.deOpTextBox1.Location = new System.Drawing.Point(262, 80);
             this.deOpTextBox1.Name = "deOpTextBox1";
-            this.deOpTextBox1.Size = new System.Drawing.Size(121, 20);
+            this.deOpTextBox1.Size = new System.Drawing.Size(136, 20);
             this.deOpTextBox1.TabIndex = 16;
             this.deOpTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.deOpTextBox1_KeyDown);
             // 
@@ -216,14 +216,14 @@
             this.gameRuleComboBox.FormattingEnabled = true;
             this.gameRuleComboBox.Location = new System.Drawing.Point(262, 106);
             this.gameRuleComboBox.Name = "gameRuleComboBox";
-            this.gameRuleComboBox.Size = new System.Drawing.Size(121, 21);
+            this.gameRuleComboBox.Size = new System.Drawing.Size(136, 21);
             this.gameRuleComboBox.TabIndex = 18;
             this.gameRuleComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gameRuleComboBox_KeyDown);
             // 
             // trueGRRadioButton
             // 
             this.trueGRRadioButton.AutoSize = true;
-            this.trueGRRadioButton.Location = new System.Drawing.Point(389, 109);
+            this.trueGRRadioButton.Location = new System.Drawing.Point(404, 109);
             this.trueGRRadioButton.Name = "trueGRRadioButton";
             this.trueGRRadioButton.Size = new System.Drawing.Size(47, 17);
             this.trueGRRadioButton.TabIndex = 19;
@@ -235,7 +235,7 @@
             // falseGRRadioButton2
             // 
             this.falseGRRadioButton2.AutoSize = true;
-            this.falseGRRadioButton2.Location = new System.Drawing.Point(442, 109);
+            this.falseGRRadioButton2.Location = new System.Drawing.Point(457, 109);
             this.falseGRRadioButton2.Name = "falseGRRadioButton2";
             this.falseGRRadioButton2.Size = new System.Drawing.Size(50, 17);
             this.falseGRRadioButton2.TabIndex = 20;
@@ -249,9 +249,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(751, 222);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 13);
+            this.label5.Size = new System.Drawing.Size(74, 13);
             this.label5.TabIndex = 21;
-            this.label5.Text = "Players Online:";
+            this.label5.Text = "Players Online";
             // 
             // playerTxtOutput
             // 
