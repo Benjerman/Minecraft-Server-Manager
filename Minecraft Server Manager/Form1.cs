@@ -15,7 +15,7 @@ namespace Minecraft_Server_Manager
 
         Process minecraftProcess;
         StreamWriter mcInputStream;
-
+     
         string players = "Loading Player List...";
         string players2 = "";
 
@@ -23,13 +23,14 @@ namespace Minecraft_Server_Manager
         private System.Threading.Timer timer;
 
         public delegate void fpTextBoxCallback_t(string strText);
-        public fpTextBoxCallback_t fpTextBoxCallback;        
+        public string logFile = "serverlog.log";   public fpTextBoxCallback_t fpTextBoxCallback;        
 
         public Form1()
         {
             string startServer = ConfigurationManager.AppSettings["startServer"].ToString();
             string automaticBackups = ConfigurationManager.AppSettings["automaticBackups"].ToString();
             string date = ConfigurationManager.AppSettings["dateTime"].ToString();
+
             
             //DateTime dt = Convert.ToDateTime(DateTime.Now, System.Globalization.CultureInfo.CreateSpecificCulture("en-us").DateTimeFormat);
 
@@ -41,8 +42,8 @@ namespace Minecraft_Server_Manager
             InitializeComponent();
 
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Tick += new EventHandler(timer_Tick); 
-            timer.Interval = (5000) * (1);              
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Interval = (5000) * (1);           
             timer.Enabled = true;                       
             timer.Start();
 
@@ -125,9 +126,6 @@ namespace Minecraft_Server_Manager
             string blah = strText.Replace("\r\n", "");
             try
             {
-
-                
-
                 if (blah.Contains("CrashReporter") && restartTryLimit < 3)
                 {
                     Thread.Sleep(5000);
@@ -143,7 +141,7 @@ namespace Minecraft_Server_Manager
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
-                    File.AppendAllText(@"ServerLog.csv", strText);
+                    File.AppendAllText(logFile, strText);
                     return;
                 }
                 if (blah.Contains("commandblock") && blah.Contains("="))
@@ -160,7 +158,7 @@ namespace Minecraft_Server_Manager
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
-                    File.AppendAllText(@"ServerLog.csv",strText);
+                    File.AppendAllText(logFile,strText);
                 }
                 else if (strText.Contains("players online"))
                 {                    
@@ -181,7 +179,7 @@ namespace Minecraft_Server_Manager
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
-                    File.AppendAllText(@"ServerLog.csv", strText);
+                    File.AppendAllText(logFile, strText);
                 }
                 
             }
@@ -213,7 +211,7 @@ namespace Minecraft_Server_Manager
                 if (this.minecraftProcess.HasExited)
                 {
                     txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
-                    File.AppendAllText(@"ServerLog.csv", "\r\n" + DateTime.Now.ToString() + " " + "The server has been shutdown.\r\n");
+                    File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "The server has been shutdown.\r\n");
                     return;
                 }
 
@@ -231,7 +229,7 @@ namespace Minecraft_Server_Manager
         public void ProcessExited(object sender, EventArgs e)
         {
             txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
-            File.AppendAllText(@"ServerLog.csv", "\r\n" + DateTime.Now.ToString() + " " + "The server has been shutdown.\r\n");
+            File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "The server has been shutdown.\r\n");
 
         }
 
@@ -381,6 +379,7 @@ namespace Minecraft_Server_Manager
             {
 
             }
+
         }
 
         private void txtInputCommand_KeyDown(object sender, KeyEventArgs e)
@@ -429,16 +428,21 @@ namespace Minecraft_Server_Manager
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+
+
             mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
             txtOutput.AppendText("\r\n\r\nTelling players the server is going down in 10 seconds\r\n");
-            File.AppendAllText(@"ServerLog.csv", "\r\n" + DateTime.Now.ToString() + " " + "Telling players the server is going down in 10 seconds\r\n");
-
+            File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Telling players the server is going down in 10 seconds\r\n");
 
             Thread.Sleep(10000);
             txtOutput.AppendText("\r\nStopping Server\r\n");
-            File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Stopping Server\r\n");
+            File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Stopping Server\r\n");
             mcInputStream.WriteLine("stop");
             Thread.Sleep(5000);
+
+            startServerButton.Enabled = true;
+            stopServerButton.Enabled = false;
+
             string source_dir = "";
             string destination_dir = "";
 
@@ -447,7 +451,7 @@ namespace Minecraft_Server_Manager
 
 
             txtOutput.AppendText("\r\nStarting Backup\r\n\r\n");
-            File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Starting Backup\r\n");
+            File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Starting Backup\r\n");
             foreach (string dir in System.IO.Directory.GetDirectories(source_dir, "*", System.IO.SearchOption.AllDirectories))
             {
                 System.IO.Directory.CreateDirectory(System.IO.Path.Combine(destination_dir, dir.Substring(source_dir.Length + 1)));               
@@ -457,13 +461,13 @@ namespace Minecraft_Server_Manager
             {
                 System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)));
                 txtOutput.AppendText("Backing up: " + file_name + "    TO:    " + destination_dir + file_name + "\r\n\r\n");
-                File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Backing up: " + file_name + "    TO:    " + destination_dir + file_name + "\r\n");
+                File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Backing up: " + file_name + "    TO:    " + destination_dir + file_name + "\r\n");
                 txtOutput.ScrollToCaret();
 
             }
             Thread.Sleep(5000);
             txtOutput.AppendText("\r\nBackup Complete. Starting server\r\n\r\n");
-            File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Backup Complete. Starting server\r\n");
+            File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Backup Complete. Starting server\r\n");
 
             startServerButton_Click(sender, e);
             
