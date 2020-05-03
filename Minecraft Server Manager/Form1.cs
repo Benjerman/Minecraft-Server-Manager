@@ -19,22 +19,17 @@ namespace Minecraft_Server_Manager
         string players = "Loading Player List...";
         string players2 = "";
 
-
         private System.Threading.Timer timer;
 
         public delegate void fpTextBoxCallback_t(string strText);
-        public string logFile = "serverlog.log";   public fpTextBoxCallback_t fpTextBoxCallback;        
-
+        public fpTextBoxCallback_t fpTextBoxCallback;    
+        public string logFile = "serverlog.log";
+    
         public Form1()
         {
             string startServer = ConfigurationManager.AppSettings["startServer"].ToString();
             string automaticBackups = ConfigurationManager.AppSettings["automaticBackups"].ToString();
             string date = ConfigurationManager.AppSettings["dateTime"].ToString();
-
-            
-            //DateTime dt = Convert.ToDateTime(DateTime.Now, System.Globalization.CultureInfo.CreateSpecificCulture("en-us").DateTimeFormat);
-
-            
 
             CheckForIllegalCrossThreadCalls = false;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -43,7 +38,7 @@ namespace Minecraft_Server_Manager
 
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = (5000) * (1);           
+            timer.Interval = 5000;           
             timer.Enabled = true;                       
             timer.Start();
 
@@ -92,15 +87,12 @@ namespace Minecraft_Server_Manager
             }
 
             weatherComboBox.DataSource = weatherList;
-
             gameRuleComboBox.DataSource = gameRuleList;
 
             if(startServer == "true")
             {
                 startServerButton_Click(null, EventArgs.Empty);
-            }
-
-            
+            }           
         } // End Constructor
 
         int restartTryLimit = 0;
@@ -121,8 +113,7 @@ namespace Minecraft_Server_Manager
             }, null, timeToGo, Timeout.InfiniteTimeSpan);
         }
         public void AddTextToOutputTextBox(string strText)
-        {
-            
+        {          
             string blah = strText.Replace("\r\n", "");
             try
             {
@@ -159,6 +150,7 @@ namespace Minecraft_Server_Manager
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
                     File.AppendAllText(logFile,strText);
+                    // xuid when a player connects or disconnects, also refresh players list
                 }
                 else if (strText.Contains("players online"))
                 {                    
@@ -173,22 +165,18 @@ namespace Minecraft_Server_Manager
                     Array.Sort(names);
                     string result = string.Join("\r\n", names);                 
                     players = players + result;
-                    
                 }
                 else
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
                     File.AppendAllText(logFile, strText);
-                }
-                
+                }              
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }           
-
-
         } 
 
         private void ConsoleOutputHandler(object sendingProcess, System.Diagnostics.DataReceivedEventArgs outLine)
@@ -199,10 +187,8 @@ namespace Minecraft_Server_Manager
                     this.Invoke(fpTextBoxCallback, Environment.NewLine + outLine.Data);
                 else
                     fpTextBoxCallback(Environment.NewLine + outLine.Data);
-            }
-            
+            }           
         }
-
 
         private void btnExecute_Click(object sender, EventArgs e)
         {
@@ -214,11 +200,8 @@ namespace Minecraft_Server_Manager
                     File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "The server has been shutdown.\r\n");
                     return;
                 }
-
-
                 mcInputStream.WriteLine(txtInputCommand.Text);
             }
-
             catch
             {
 
@@ -230,7 +213,6 @@ namespace Minecraft_Server_Manager
         {
             txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
             File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "The server has been shutdown.\r\n");
-
         }
 
 
@@ -242,7 +224,6 @@ namespace Minecraft_Server_Manager
         private void startServerButton_Click(object sender, EventArgs e)
         {
             string processFileName = "";
-
 
             processFileName = @"bedrock_server.exe";
             if (!File.Exists(processFileName))
@@ -361,33 +342,29 @@ namespace Minecraft_Server_Manager
 
             }
         }
+
         void timer_Tick(object sender, EventArgs e)
-        {            
+        {
             try
             {
-                
-                if(players != players2)
+                if (players != players2)
                 {
                     playerTxtOutput.Clear();
                     playerTxtOutput.Text = players;
                 }
-                //playerTxtOutput.Clear();
-                mcInputStream.WriteLine("list");                
-                players = players2;                
+                mcInputStream.WriteLine("list");
+                players = players2;
             }
             catch
             {
 
             }
-
         }
 
         private void txtInputCommand_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-                if (e.KeyCode == Keys.Enter)
-                btnExecute_Click(sender, e);
-           
+        {           
+            if (e.KeyCode == Keys.Enter)
+                btnExecute_Click(sender, e);        
         }
 
         private void weatherComboBox_KeyDown(object sender, KeyEventArgs e)
@@ -428,8 +405,6 @@ namespace Minecraft_Server_Manager
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-
-
             mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
             txtOutput.AppendText("\r\n\r\nTelling players the server is going down in 10 seconds\r\n");
             File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Telling players the server is going down in 10 seconds\r\n");
@@ -469,8 +444,7 @@ namespace Minecraft_Server_Manager
             txtOutput.AppendText("\r\nBackup Complete. Starting server\r\n\r\n");
             File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Backup Complete. Starting server\r\n");
 
-            startServerButton_Click(sender, e);
-            
+            startServerButton_Click(sender, e);            
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -487,8 +461,7 @@ namespace Minecraft_Server_Manager
                 configuration.AppSettings.Settings["startServer"].Value = "false";
                 configuration.Save(ConfigurationSaveMode.Modified);
             }
-
-            }
+        }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
@@ -513,9 +486,8 @@ namespace Minecraft_Server_Manager
                 configuration.AppSettings.Settings["automaticBackups"].Value = "false";
                 configuration.Save(ConfigurationSaveMode.Modified);
             }
-
         }
     }
-    }
+}
 
 
