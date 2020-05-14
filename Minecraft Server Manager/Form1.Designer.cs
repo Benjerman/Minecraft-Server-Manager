@@ -58,11 +58,16 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.automaticBackupsCheckBox = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBoxWelcomeMsg = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBoxLoginMsg = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtOutput
             // 
-            this.txtOutput.Location = new System.Drawing.Point(9, 238);
+            this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtOutput.Location = new System.Drawing.Point(9, 262);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(528, 378);
             this.txtOutput.TabIndex = 0;
@@ -70,7 +75,7 @@
             // 
             // btnExecute
             // 
-            this.btnExecute.Location = new System.Drawing.Point(543, 199);
+            this.btnExecute.Location = new System.Drawing.Point(543, 218);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 20);
             this.btnExecute.TabIndex = 2;
@@ -121,7 +126,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 222);
+            this.label2.Location = new System.Drawing.Point(6, 246);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 8;
@@ -130,7 +135,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 183);
+            this.label3.Location = new System.Drawing.Point(6, 202);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 9;
@@ -247,7 +252,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(751, 222);
+            this.label5.Location = new System.Drawing.Point(751, 246);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(74, 13);
             this.label5.TabIndex = 21;
@@ -255,7 +260,8 @@
             // 
             // playerTxtOutput
             // 
-            this.playerTxtOutput.Location = new System.Drawing.Point(754, 238);
+            this.playerTxtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.playerTxtOutput.Location = new System.Drawing.Point(754, 262);
             this.playerTxtOutput.Multiline = true;
             this.playerTxtOutput.Name = "playerTxtOutput";
             this.playerTxtOutput.Size = new System.Drawing.Size(162, 378);
@@ -263,7 +269,7 @@
             // 
             // txtInputCommand
             // 
-            this.txtInputCommand.Location = new System.Drawing.Point(9, 199);
+            this.txtInputCommand.Location = new System.Drawing.Point(9, 218);
             this.txtInputCommand.Name = "txtInputCommand";
             this.txtInputCommand.Size = new System.Drawing.Size(528, 20);
             this.txtInputCommand.TabIndex = 23;
@@ -287,7 +293,8 @@
             // 
             // gameRulesTxt
             // 
-            this.gameRulesTxt.Location = new System.Drawing.Point(543, 238);
+            this.gameRulesTxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gameRulesTxt.Location = new System.Drawing.Point(543, 262);
             this.gameRulesTxt.Multiline = true;
             this.gameRulesTxt.Name = "gameRulesTxt";
             this.gameRulesTxt.Size = new System.Drawing.Size(205, 378);
@@ -296,7 +303,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(540, 222);
+            this.label6.Location = new System.Drawing.Point(540, 246);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(102, 13);
             this.label6.TabIndex = 26;
@@ -336,11 +343,49 @@
             this.label7.TabIndex = 29;
             this.label7.Text = "Backup time";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(155, 160);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(101, 13);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "Welcome Message:";
+            // 
+            // textBoxWelcomeMsg
+            // 
+            this.textBoxWelcomeMsg.Location = new System.Drawing.Point(262, 157);
+            this.textBoxWelcomeMsg.Name = "textBoxWelcomeMsg";
+            this.textBoxWelcomeMsg.Size = new System.Drawing.Size(356, 20);
+            this.textBoxWelcomeMsg.TabIndex = 31;
+            this.textBoxWelcomeMsg.TextChanged += new System.EventHandler(this.textBoxWelcomeMsg_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(174, 136);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(82, 13);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "Login Message:";
+            // 
+            // textBoxLoginMsg
+            // 
+            this.textBoxLoginMsg.Location = new System.Drawing.Point(262, 132);
+            this.textBoxLoginMsg.Name = "textBoxLoginMsg";
+            this.textBoxLoginMsg.Size = new System.Drawing.Size(356, 20);
+            this.textBoxLoginMsg.TabIndex = 33;
+            this.textBoxLoginMsg.TextChanged += new System.EventHandler(this.textBoxLoginMsg_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(922, 628);
+            this.ClientSize = new System.Drawing.Size(922, 652);
+            this.Controls.Add(this.textBoxLoginMsg);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.textBoxWelcomeMsg);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.automaticBackupsCheckBox);
             this.Controls.Add(this.dateTimePicker1);
@@ -408,6 +453,10 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.CheckBox automaticBackupsCheckBox;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBoxWelcomeMsg;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBoxLoginMsg;
     }
 }
 

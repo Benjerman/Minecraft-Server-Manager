@@ -24,12 +24,37 @@ namespace Minecraft_Server_Manager
         public delegate void fpTextBoxCallback_t(string strText);
         public fpTextBoxCallback_t fpTextBoxCallback;    
         public string logFile = "serverlog.log";
-    
+
+        public void sayDelay(int sayTimer, params string[] sayThis)
+        {
+            Task.Delay(sayTimer * 1000).ContinueWith(t => serverSay(sayThis));
+        }
+
+        public void serverSay(params string[] toSay)
+        {
+            foreach (string say in toSay)
+            mcInputStream.WriteLine("say " + say);
+        }
+
+        public string replaceString(String s, String r)
+        {
+            int start = s.IndexOf("{");
+            int end = s.IndexOf("}", start);
+            string result = s.Substring(start, (end - start) +1);
+            return s = s.Replace(result, r);
+        }
+
+        public string loginMsg = ConfigurationManager.AppSettings["loginMsg"].ToString();
+        public string welcomeMsg = ConfigurationManager.AppSettings["welcomeMsg"].ToString();
+
         public Form1()
         {
             string startServer = ConfigurationManager.AppSettings["startServer"].ToString();
             string automaticBackups = ConfigurationManager.AppSettings["automaticBackups"].ToString();
             string date = ConfigurationManager.AppSettings["dateTime"].ToString();
+
+            loginMsg = ConfigurationManager.AppSettings["loginMsg"].ToString();
+            welcomeMsg = ConfigurationManager.AppSettings["welcomeMsg"].ToString();
 
             CheckForIllegalCrossThreadCalls = false;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -86,6 +111,9 @@ namespace Minecraft_Server_Manager
                 SetUpTimer();
             }
 
+            textBoxLoginMsg.Text = loginMsg;
+            textBoxWelcomeMsg.Text = welcomeMsg;
+
             weatherComboBox.DataSource = weatherList;
             gameRuleComboBox.DataSource = gameRuleList;
 
@@ -115,6 +143,7 @@ namespace Minecraft_Server_Manager
         public void AddTextToOutputTextBox(string strText)
         {          
             string blah = strText.Replace("\r\n", "");
+
             try
             {
                 if (blah.Contains("CrashReporter") && restartTryLimit < 3)
@@ -151,6 +180,29 @@ namespace Minecraft_Server_Manager
                     txtOutput.ScrollToCaret();
                     File.AppendAllText(logFile,strText);
                     // xuid when a player connects or disconnects, also refresh players list
+
+                    if (blah.Contains("Player connected"))
+                    {
+                    // Get the player name
+                    int pFrom = blah.IndexOf("connected: ") + "connected: ".Length;
+                    int pTo = blah.LastIndexOf(", ");
+                    String playerName = blah.Substring(pFrom, pTo - pFrom);
+                    this.txtOutput.AppendText("\r\n" + "Welcome, " + playerName);
+                    txtOutput.ScrollToCaret();
+
+                    if (loginMsg.Contains("{playerName}"))
+                    {
+                        loginMsg = replaceString(loginMsg, playerName);
+                    }
+
+                    if (welcomeMsg.Contains("{playerName}"))
+                    {
+                        welcomeMsg = replaceString(welcomeMsg, playerName);
+                    }
+
+                    sayDelay(10, loginMsg.ToString(), welcomeMsg.ToString());
+                    }
+
                 }
                 else if (strText.Contains("players online"))
                 {                    
@@ -280,6 +332,7 @@ namespace Minecraft_Server_Manager
 
         private void OnProcessExit(object sender, EventArgs e)
         {           
+            // Should check if server is running before sending this command
             mcInputStream.WriteLine("stop");
             Thread.Sleep(5000);
         }
@@ -487,6 +540,21 @@ namespace Minecraft_Server_Manager
                 configuration.Save(ConfigurationSaveMode.Modified);
             }
         }
+
+        private void textBoxLoginMsg_TextChanged(object sender, EventArgs e)
+        {
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            configuration.AppSettings.Settings["loginMsg"].Value = textBoxLoginMsg.Text.ToString();
+            configuration.Save(ConfigurationSaveMode.Modified);
+        }
+
+        private void textBoxWelcomeMsg_TextChanged(object sender, EventArgs e)
+        {
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            configuration.AppSettings.Settings["welcomeMsg"].Value = textBoxWelcomeMsg.Text.ToString();
+            configuration.Save(ConfigurationSaveMode.Modified);
+        }
+
     }
 }
 
