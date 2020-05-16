@@ -141,8 +141,9 @@ namespace Minecraft_Server_Manager
             }, null, timeToGo, Timeout.InfiniteTimeSpan);
         }
         public void AddTextToOutputTextBox(string strText)
-        {          
+        {  
             string blah = strText.Replace("\r\n", "");
+            string playerName;
 
             try
             {
@@ -163,6 +164,11 @@ namespace Minecraft_Server_Manager
                     txtOutput.ScrollToCaret();
                     File.AppendAllText(logFile, strText);
                     return;
+                }
+                if (blah.Contains("Version"))
+                {
+                    string thisVersion = blah.Substring(blah.LastIndexOf(' ') + 1);
+                    statusLabel.Text = "Running: " + thisVersion;
                 }
                 if (blah.Contains("commandblock") && blah.Contains("="))
                 {
@@ -186,20 +192,22 @@ namespace Minecraft_Server_Manager
                     // Get the player name
                     int pFrom = blah.IndexOf("connected: ") + "connected: ".Length;
                     int pTo = blah.LastIndexOf(", ");
-                    String playerName = blah.Substring(pFrom, pTo - pFrom);
-                    this.txtOutput.AppendText("\r\n" + "Welcome, " + playerName);
+                    playerName = blah.Substring(pFrom, pTo - pFrom);
+                    this.txtOutput.AppendText("\r\n[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "SRVR] Player name:" + playerName);
                     txtOutput.ScrollToCaret();
 
                     if (loginMsg.Contains("{playerName}"))
                     {
                         loginMsg = replaceString(loginMsg, playerName);
                     }
-
                     if (welcomeMsg.Contains("{playerName}"))
                     {
                         welcomeMsg = replaceString(welcomeMsg, playerName);
                     }
 
+                    this.txtOutput.AppendText("\r\n" + loginMsg.ToString());
+                    this.txtOutput.AppendText("\r\n" + welcomeMsg.ToString());
+                    txtOutput.ScrollToCaret();
                     sayDelay(10, loginMsg.ToString(), welcomeMsg.ToString());
                     }
 
@@ -249,6 +257,7 @@ namespace Minecraft_Server_Manager
                 if (this.minecraftProcess.HasExited)
                 {
                     txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
+                    txtOutput.ScrollToCaret();
                     File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "The server has been shutdown.\r\n");
                     return;
                 }
@@ -264,6 +273,7 @@ namespace Minecraft_Server_Manager
         public void ProcessExited(object sender, EventArgs e)
         {
             txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
+            txtOutput.ScrollToCaret();
             File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "The server has been shutdown.\r\n");
         }
 
@@ -323,6 +333,7 @@ namespace Minecraft_Server_Manager
                 gameRulesTxt.Clear();
                 startServerButton.Enabled = true;
                 stopServerButton.Enabled = false;
+                statusLabel.Text = "Stopped";
             }
             catch(Exception ex)
             {
@@ -460,13 +471,16 @@ namespace Minecraft_Server_Manager
         {
             mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
             txtOutput.AppendText("\r\n\r\nTelling players the server is going down in 10 seconds\r\n");
+            txtOutput.ScrollToCaret();
             File.AppendAllText(logFile, "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Telling players the server is going down in 10 seconds\r\n");
 
             Thread.Sleep(10000);
             txtOutput.AppendText("\r\nStopping Server\r\n");
+            txtOutput.ScrollToCaret();
             File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Stopping Server\r\n");
             mcInputStream.WriteLine("stop");
             Thread.Sleep(5000);
+            statusLabel.Text = "Stopped";
 
             startServerButton.Enabled = true;
             stopServerButton.Enabled = false;
@@ -479,6 +493,7 @@ namespace Minecraft_Server_Manager
 
 
             txtOutput.AppendText("\r\nStarting Backup\r\n\r\n");
+            txtOutput.ScrollToCaret();
             File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Starting Backup\r\n");
             foreach (string dir in System.IO.Directory.GetDirectories(source_dir, "*", System.IO.SearchOption.AllDirectories))
             {
@@ -495,6 +510,7 @@ namespace Minecraft_Server_Manager
             }
             Thread.Sleep(5000);
             txtOutput.AppendText("\r\nBackup Complete. Starting server\r\n\r\n");
+            txtOutput.ScrollToCaret();
             File.AppendAllText(logFile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "Backup Complete. Starting server\r\n");
 
             startServerButton_Click(sender, e);            
@@ -546,6 +562,7 @@ namespace Minecraft_Server_Manager
             Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             configuration.AppSettings.Settings["loginMsg"].Value = textBoxLoginMsg.Text.ToString();
             configuration.Save(ConfigurationSaveMode.Modified);
+            loginMsg = textBoxLoginMsg.Text.ToString();
         }
 
         private void textBoxWelcomeMsg_TextChanged(object sender, EventArgs e)
@@ -553,9 +570,14 @@ namespace Minecraft_Server_Manager
             Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             configuration.AppSettings.Settings["welcomeMsg"].Value = textBoxWelcomeMsg.Text.ToString();
             configuration.Save(ConfigurationSaveMode.Modified);
+            welcomeMsg = textBoxWelcomeMsg.Text.ToString();
         }
 
     }
 }
+
+
+
+
 
 

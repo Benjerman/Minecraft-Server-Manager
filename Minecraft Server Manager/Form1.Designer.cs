@@ -62,6 +62,7 @@
             this.textBoxWelcomeMsg = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxLoginMsg = new System.Windows.Forms.TextBox();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtOutput
@@ -377,11 +378,21 @@
             this.textBoxLoginMsg.TabIndex = 33;
             this.textBoxLoginMsg.TextChanged += new System.EventHandler(this.textBoxLoginMsg_TextChanged);
             // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(12, 166);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(47, 13);
+            this.statusLabel.TabIndex = 34;
+            this.statusLabel.Text = "Stopped";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 652);
+            this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.textBoxLoginMsg);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBoxWelcomeMsg);
@@ -457,6 +468,7 @@
         private System.Windows.Forms.TextBox textBoxWelcomeMsg;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBoxLoginMsg;
+        private System.Windows.Forms.Label statusLabel;
     }
 }
 
