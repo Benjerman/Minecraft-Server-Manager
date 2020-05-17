@@ -44,17 +44,13 @@ namespace Minecraft_Server_Manager
             return s = s.Replace(result, r);
         }
 
-        public string loginMsg = ConfigurationManager.AppSettings["loginMsg"].ToString();
-        public string welcomeMsg = ConfigurationManager.AppSettings["welcomeMsg"].ToString();
+
 
         public Form1()
         {
             string startServer = ConfigurationManager.AppSettings["startServer"].ToString();
             string automaticBackups = ConfigurationManager.AppSettings["automaticBackups"].ToString();
             string date = ConfigurationManager.AppSettings["dateTime"].ToString();
-
-            loginMsg = ConfigurationManager.AppSettings["loginMsg"].ToString();
-            welcomeMsg = ConfigurationManager.AppSettings["welcomeMsg"].ToString();
 
             CheckForIllegalCrossThreadCalls = false;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -111,8 +107,8 @@ namespace Minecraft_Server_Manager
                 SetUpTimer();
             }
 
-            textBoxLoginMsg.Text = loginMsg;
-            textBoxWelcomeMsg.Text = welcomeMsg;
+            textBoxLoginMsg.Text = ConfigurationManager.AppSettings["loginMsg"].ToString();
+            textBoxWelcomeMsg.Text = ConfigurationManager.AppSettings["welcomeMsg"].ToString();
 
             weatherComboBox.DataSource = weatherList;
             gameRuleComboBox.DataSource = gameRuleList;
@@ -143,7 +139,6 @@ namespace Minecraft_Server_Manager
         public void AddTextToOutputTextBox(string strText)
         {  
             string blah = strText.Replace("\r\n", "");
-            string playerName;
 
             try
             {
@@ -192,9 +187,12 @@ namespace Minecraft_Server_Manager
                     // Get the player name
                     int pFrom = blah.IndexOf("connected: ") + "connected: ".Length;
                     int pTo = blah.LastIndexOf(", ");
-                    playerName = blah.Substring(pFrom, pTo - pFrom);
+                    string playerName = blah.Substring(pFrom, pTo - pFrom);
                     this.txtOutput.AppendText("\r\n[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "SRVR] Player name:" + playerName);
                     txtOutput.ScrollToCaret();
+
+                    string loginMsg = textBoxLoginMsg.Text.ToString();
+                    string welcomeMsg = textBoxWelcomeMsg.Text.ToString();
 
                     if (loginMsg.Contains("{playerName}"))
                     {
@@ -562,7 +560,6 @@ namespace Minecraft_Server_Manager
             Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             configuration.AppSettings.Settings["loginMsg"].Value = textBoxLoginMsg.Text.ToString();
             configuration.Save(ConfigurationSaveMode.Modified);
-            loginMsg = textBoxLoginMsg.Text.ToString();
         }
 
         private void textBoxWelcomeMsg_TextChanged(object sender, EventArgs e)
@@ -570,7 +567,6 @@ namespace Minecraft_Server_Manager
             Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             configuration.AppSettings.Settings["welcomeMsg"].Value = textBoxWelcomeMsg.Text.ToString();
             configuration.Save(ConfigurationSaveMode.Modified);
-            welcomeMsg = textBoxWelcomeMsg.Text.ToString();
         }
 
     }
