@@ -195,6 +195,7 @@ namespace Minecraft_Server_Manager
                     return;
                 }
                 mcInputStream.WriteLine(txtInputCommand.Text);
+
             }
             catch
             {
@@ -234,6 +235,7 @@ namespace Minecraft_Server_Manager
         {
             try
             {
+                startServerButton.Enabled = false;
                 string processFileName = "";
 
 
@@ -278,6 +280,7 @@ namespace Minecraft_Server_Manager
                 mcInputStream.WriteLine("stop");
                 playerTxtOutput.Clear();
                 gameRulesTxt.Clear();
+                startServerButton.Enabled = true;
             }
             catch(Exception ex)
             {
