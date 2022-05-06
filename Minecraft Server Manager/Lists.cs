@@ -29,13 +29,17 @@ namespace Minecraft_Server_Manager
             gameRuleList.Add("drowningdamage");
             gameRuleList.Add("falldamage");
             gameRuleList.Add("firedamage");
+            gameRuleList.Add("freezedamage");
             gameRuleList.Add("keepinventory");
             gameRuleList.Add("mobgriefing");
             gameRuleList.Add("naturalregeneration");
             gameRuleList.Add("pvp");
+            gameRuleList.Add("respawnblocksexplode");
             gameRuleList.Add("sendcommandfeedback");
+            gameRuleList.Add("showbordereffect");
             gameRuleList.Add("showcoordinates");
             gameRuleList.Add("showdeathmessages");
+            gameRuleList.Add("showtags");
             gameRuleList.Add("tntexplodes");
             return gameRuleList;
         }
