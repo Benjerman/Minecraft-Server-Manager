@@ -26,19 +26,18 @@ namespace Minecraft_Server_Manager
         public fpTextBoxCallback_t fpTextBoxCallback;        
 
         public Form1()
-        {
+        {            
             string startServer = ConfigurationManager.AppSettings["startServer"].ToString();
             string automaticBackups = ConfigurationManager.AppSettings["automaticBackups"].ToString();
             string date = ConfigurationManager.AppSettings["dateTime"].ToString();
-            
-            //DateTime dt = Convert.ToDateTime(DateTime.Now, System.Globalization.CultureInfo.CreateSpecificCulture("en-us").DateTimeFormat);
 
-            
+            Lists lists = new Lists();
 
-            CheckForIllegalCrossThreadCalls = false;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             fpTextBoxCallback = new fpTextBoxCallback_t(AddTextToOutputTextBox);
             InitializeComponent();
+            _Form1 = this;
+
 
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Tick += new EventHandler(timer_Tick); 
@@ -47,37 +46,11 @@ namespace Minecraft_Server_Manager
             timer.Start();
 
             dateTimePicker1.Text = date;
-            List<string> weatherList = new List<string>();
-            weatherList.Add("clear");
-            weatherList.Add("rain");
-            weatherList.Add("thunder");
 
-            List<string> gameRuleList = new List<string>();
-            gameRuleList.Add("commandblockoutput");
-            gameRuleList.Add("commandblocksenabled");
-            gameRuleList.Add("dodaylightcycle");
-            gameRuleList.Add("doentitydrops");
-            gameRuleList.Add("dofiretick");
-            gameRuleList.Add("doimmediaterespawn");
-            gameRuleList.Add("doinsomnia");
-            gameRuleList.Add("domobloot");
-            gameRuleList.Add("domobspawning");
-            gameRuleList.Add("dotiledrops");
-            gameRuleList.Add("doweathercycle");
-            gameRuleList.Add("drowningdamage");
-            gameRuleList.Add("falldamage");
-            gameRuleList.Add("firedamage");
-            //gameRuleList.Add("functioncommandlimit");
-            gameRuleList.Add("keepinventory");
-            //gameRuleList.Add("maxcommandchainlength");
-            gameRuleList.Add("mobgriefing");
-            gameRuleList.Add("naturalregeneration");
-            gameRuleList.Add("pvp");
-            //gameRuleList.Add("randomtickspeed");
-            gameRuleList.Add("sendcommandfeedback");
-            gameRuleList.Add("showcoordinates");
-            gameRuleList.Add("showdeathmessages");
-            gameRuleList.Add("tntexplodes");
+            //Fill Listboxes on form
+            List<string> weatherList = lists.WeatherList();
+            List<string> gameRuleList = lists.GameRuleList();
+           
 
             if (startServer == "true")
             {
@@ -102,9 +75,11 @@ namespace Minecraft_Server_Manager
             
         } // End Constructor
 
+        public static Form1 _Form1;
+
         int restartTryLimit = 0;
 
-        
+
         private void SetUpTimer()
         {
             TimeSpan alertTime = dateTimePicker1.Value.TimeOfDay;
@@ -122,33 +97,33 @@ namespace Minecraft_Server_Manager
         public void AddTextToOutputTextBox(string strText)
         {
             
-            string blah = strText.Replace("\r\n", "");
+            string modifiedText = strText.Replace("\r\n", "");
             try
             {
 
                 
 
-                if (blah.Contains("CrashReporter") && restartTryLimit < 3)
+                if (modifiedText.Contains("CrashReporter") && restartTryLimit < 3)
                 {
                     Thread.Sleep(5000);
                     startServerButton_Click(null, EventArgs.Empty);
                     restartTryLimit++;
                     return;
                 }
-                if (blah.Contains("Server Started."))
+                if (modifiedText.Contains("Server Started."))
                 {
                     restartTryLimit = 0;
                 }
-                if (blah.Contains("Network port occupied, can't start server."))
+                if (modifiedText.Contains("Network port occupied, can't start server."))
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
-                    File.AppendAllText(@"ServerLog.csv", strText);
+                    File.AppendAllText(@"ServerLog.txt", strText);
                     return;
                 }
-                if (blah.Contains("commandblock") && blah.Contains("="))
+                if (modifiedText.Contains("commandblock") && modifiedText.Contains("="))
                 {
-                    string removeComma = blah.Replace(", ", "\r\n");
+                    string removeComma = modifiedText.Replace(", ", "\r\n");
                     gameRulesTxt.Text = removeComma;
                     return;
                 }
@@ -156,18 +131,18 @@ namespace Minecraft_Server_Manager
                 {
                    strText = strText.Replace("\r\n", "");
                 }
-                if (blah.Contains(", xuid") || blah.Contains(", port"))
+                if (modifiedText.Contains(", xuid") || modifiedText.Contains(", port"))
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
-                    File.AppendAllText(@"ServerLog.csv",strText);
+                    File.AppendAllText(@"ServerLog.txt",strText);
                 }
                 else if (strText.Contains("players online"))
                 {                    
                     players = players + strText + "\r\n";
                 }               
 
-                else if (strText.Contains("players online") || (!blah.Contains(" ") && strText.Length > 0) || blah.Contains(", ") )
+                else if (strText.Contains("players online") || (!modifiedText.Contains(" ") && strText.Length > 0) || modifiedText.Contains(", ") )
                 {
                     string removeCR = strText.Replace("\r\n","");
                     removeCR = removeCR.Replace(" ", "");
@@ -181,7 +156,7 @@ namespace Minecraft_Server_Manager
                 {
                     this.txtOutput.AppendText(strText);
                     txtOutput.ScrollToCaret();
-                    File.AppendAllText(@"ServerLog.csv", strText);
+                    File.AppendAllText(@"ServerLog.txt", strText);
                 }
                 
             }
@@ -213,7 +188,7 @@ namespace Minecraft_Server_Manager
                 if (this.minecraftProcess.HasExited)
                 {
                     txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
-                    File.AppendAllText(@"ServerLog.csv", "\r\n" + DateTime.Now.ToString() + " " + "The server has been shutdown.\r\n");
+                    AppendToLog("The server has been shutdown");
                     return;
                 }
 
@@ -230,12 +205,27 @@ namespace Minecraft_Server_Manager
 
         public void ProcessExited(object sender, EventArgs e)
         {
-            txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n");
-            File.AppendAllText(@"ServerLog.csv", "\r\n" + DateTime.Now.ToString() + " " + "The server has been shutdown.\r\n");
+            //this.Invoke(new MethodInvoker(delegate { txtOutput.AppendText("\r\n\r\nThe server has been shutdown.\r\n"); }));
+            TextOutput("\r\n\r\nThe server has been shutdown.\r\n");
+            AppendToLog("The server has been shutdown");
 
         }
-
-
+        public void AppendToLog(string logText)
+        {
+            File.AppendAllText(@"ServerLog.txt", "\r\n" + DateTime.Now.ToString() + " " + logText + "\r\n");
+        }
+        public void TextOutput(string text)
+        {
+            this.Invoke(new MethodInvoker(delegate { txtOutput.AppendText(text); }));
+        }
+        public void TextScroll()
+        {
+            this.Invoke(new MethodInvoker(delegate { txtOutput.ScrollToCaret(); }));
+        }
+        public void MineCraftTextInput(string text)
+        {
+            this.Invoke(new MethodInvoker(delegate { mcInputStream.WriteLine(text); }));
+        }
         private void backupButton_Click(object sender, EventArgs e)
         {
             backgroundWorker1.RunWorkerAsync();
@@ -419,44 +409,9 @@ namespace Minecraft_Server_Manager
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            mcInputStream.WriteLine("say THE SERVER IS GOING DOWN FOR A BACKUP IN 10 SECONDS");
-            txtOutput.AppendText("\r\n\r\nTelling players the server is going down in 10 seconds\r\n");
-            File.AppendAllText(@"ServerLog.csv", "\r\n" + DateTime.Now.ToString() + " " + "Telling players the server is going down in 10 seconds\r\n");
+            ServerBackup.Backup();
+            this.Invoke(new MethodInvoker(delegate { startServerButton_Click(sender, e); }));
 
-
-            Thread.Sleep(10000);
-            txtOutput.AppendText("\r\nStopping Server\r\n");
-            File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Stopping Server\r\n");
-            mcInputStream.WriteLine("stop");
-            Thread.Sleep(5000);
-            string source_dir = "";
-            string destination_dir = "";
-
-            source_dir = @"worlds";
-            destination_dir = @"backups\worlds" + DateTime.Now.ToString("hhmmttMMddyyyy");
-
-
-            txtOutput.AppendText("\r\nStarting Backup\r\n\r\n");
-            File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Starting Backup\r\n");
-            foreach (string dir in System.IO.Directory.GetDirectories(source_dir, "*", System.IO.SearchOption.AllDirectories))
-            {
-                System.IO.Directory.CreateDirectory(System.IO.Path.Combine(destination_dir, dir.Substring(source_dir.Length + 1)));               
-            }
-
-            foreach (string file_name in System.IO.Directory.GetFiles(source_dir, "*", System.IO.SearchOption.AllDirectories))
-            {
-                System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)));
-                txtOutput.AppendText("Backing up: " + file_name + "    TO:    " + destination_dir + file_name + "\r\n\r\n");
-                File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Backing up: " + file_name + "    TO:    " + destination_dir + file_name + "\r\n");
-                txtOutput.ScrollToCaret();
-
-            }
-            Thread.Sleep(5000);
-            txtOutput.AppendText("\r\nBackup Complete. Starting server\r\n\r\n");
-            File.AppendAllText(@"ServerLog.csv", DateTime.Now.ToString() + " " + "Backup Complete. Starting server\r\n");
-
-            startServerButton_Click(sender, e);
-            
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
