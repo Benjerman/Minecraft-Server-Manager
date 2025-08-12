@@ -119,7 +119,7 @@ namespace Minecraft_Server_Manager
                     File.AppendAllText(@"ServerLog.txt", strText);
                     return;
                 }
-                if (modifiedText.Contains("commandblock") && modifiedText.Contains("="))
+                if (modifiedText.ToLower().Contains("commandblockoutput") && modifiedText.Contains("="))
                 {
                     string removeComma = modifiedText.Replace(", ", "\r\n");
                     gameRulesTxt.Text = removeComma;
