@@ -294,6 +294,7 @@
             this.gameRulesTxt.Location = new System.Drawing.Point(543, 238);
             this.gameRulesTxt.Multiline = true;
             this.gameRulesTxt.Name = "gameRulesTxt";
+            this.gameRulesTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gameRulesTxt.Size = new System.Drawing.Size(205, 399);
             this.gameRulesTxt.TabIndex = 25;
             // 

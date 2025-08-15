@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Minecraft_Server_Manager
 {
@@ -121,13 +122,21 @@ namespace Minecraft_Server_Manager
                 }
                 if (modifiedText.ToLower().Contains("commandblockoutput") && modifiedText.Contains("="))
                 {
-                    string removeComma = modifiedText.Replace(", ", "\r\n");
-                    gameRulesTxt.Text = removeComma;
+                    modifiedText = Regex.Replace(modifiedText, @"\[.*?INFO.*?\]\s*", "");
+                    modifiedText = modifiedText.Replace(", ", "\r\n");
+
+                    // Split into lines, sort alphabetically, then join back
+                    var lines = modifiedText.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    Array.Sort(lines, StringComparer.OrdinalIgnoreCase);
+                    modifiedText = string.Join("\r\n", lines);
+
+                    gameRulesTxt.Text = modifiedText;
                     return;
                 }
                 if (strText.Contains("players online"))
                 {
-                   strText = strText.Replace("\r\n", "");
+                    strText = Regex.Replace(strText, @"\[.*?INFO.*?\]\s*", "");
+                    strText = strText.Replace("\r\n", "");
                 }
                 if (modifiedText.Contains(", xuid") || modifiedText.Contains(", port"))
                 {
